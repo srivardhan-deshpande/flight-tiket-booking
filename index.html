@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkyFlow — Premium Flight Booking</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient Glow Background Gradients -->
+  <div class="ambient-glow bg-glow-1"></div>
+  <div class="ambient-glow bg-glow-2"></div>
+  
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo" id="logo-btn">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 20 2.5S18 3 16.5 4.5L13 8 4.8 6.2c-.5-.1-1.1.1-1.4.5L3 7.2c-.4.5-.4 1.2.1 1.5l7.9 4.7-3.2 3.2L5 16l-.8 1.2c-.3.4-.2 1.0.2 1.3.3.3.9.4 1.3.2L7 18l.8-2.8 3.2-3.2 4.7 7.9c.3.5 1 .5 1.5.1l.5-.4c.4-.3.6-.9.5-1.4z"/>
+        </svg>
+        <span class="logo-text">Sky<span class="accent-text">Flow</span></span>
+      </div>
+      <nav class="header-nav">
+        <a href="#" class="nav-link active" id="nav-flights">Flights</a>
+        <a href="#" class="nav-link" id="nav-discover">Discover</a>
+        <a href="#" class="nav-link" id="nav-status">Status</a>
+        <button class="btn btn-secondary-outline btn-sm">Support</button>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      
+      <!-- LOADING SCREEN -->
+      <div class="loading-overlay" id="loading-overlay">
+        <div class="loader-content">
+          <div class="airplane-container">
+            <svg class="loading-airplane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 20 2.5S18 3 16.5 4.5L13 8 4.8 6.2c-.5-.1-1.1.1-1.4.5L3 7.2c-.4.5-.4 1.2.1 1.5l7.9 4.7-3.2 3.2L5 16l-.8 1.2c-.3.4-.2 1.0.2 1.3.3.3.9.4 1.3.2L7 18l.8-2.8 3.2-3.2 4.7 7.9c.3.5 1 .5 1.5.1l.5-.4c.4-.3.6-.9.5-1.4z"/>
+            </svg>
+          </div>
+          <div class="loader-circle"></div>
+          <p class="loader-text" id="loader-text">Searching for best flights...</p>
+        </div>
+      </div>
+
+      <!-- STEP 1: SEARCH FLIGHTS -->
+      <section class="step-section active" id="step-search">
+        <div class="hero-content">
+          <span class="badge">Elevate Your Journey</span>
+          <h1 class="hero-title">Where would you like <br><span class="gradient-text">to fly today?</span></h1>
+          <p class="hero-subtitle">Discover premium flights, select bespoke cabin classes, and complete your reservation with absolute ease.</p>
+        </div>
+
+        <div class="search-card-wrapper">
+          <form class="search-form" id="search-form" autocomplete="off">
+            <div class="search-grid">
+              
+              <!-- Route Inputs Wrapper -->
+              <div class="route-inputs-wrapper">
+                <!-- From Input -->
+                <div class="input-group-wrapper">
+                  <label class="input-label">Departure City</label>
+                  <div class="input-with-icon">
+                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M2 22h20M12 2v20M12 2a4 4 0 0 0-4 4v12M12 2a4 4 0 0 1 4 4v12M4 18h16"/>
+                    </svg>
+                    <input type="text" id="input-from" placeholder="City or airport..." required>
+                    <div class="autocomplete-list" id="list-from"></div>
+                  </div>
+                </div>
+
+                <!-- Swap Button -->
+                <button type="button" class="btn-swap" id="btn-swap-locations" aria-label="Swap locations">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 16V4M7 4L3 8M7 4l4 4M17 8v12M17 20l-4-4M17 20l4-4"/>
+                  </svg>
+                </button>
+
+                <!-- To Input -->
+                <div class="input-group-wrapper">
+                  <label class="input-label">Destination City</label>
+                  <div class="input-with-icon">
+                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M22 22H2M12 2a10 10 0 0 1 10 10v10M12 2A10 10 0 0 0 2 12v10M6 12h12M12 6v12"/>
+                    </svg>
+                    <input type="text" id="input-to" placeholder="City or airport..." required>
+                    <div class="autocomplete-list" id="list-to"></div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Date Input -->
+              <div class="input-group-wrapper">
+                <label class="input-label">Departure Date</label>
+                <div class="input-with-icon">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <input type="date" id="input-date" required>
+                </div>
+              </div>
+
+              <!-- Passengers Input -->
+              <div class="input-group-wrapper">
+                <label class="input-label">Travelers</label>
+                <div class="input-with-icon passenger-selector">
+                  <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                  <div class="passenger-counter">
+                    <button type="button" class="counter-btn" id="btn-passenger-dec">—</button>
+                    <span id="passenger-count">1 Traveler</span>
+                    <button type="button" class="counter-btn" id="btn-passenger-inc">+</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Submit Search -->
+            <button type="submit" class="btn btn-primary btn-search" id="btn-search-flights">
+              <span>Search Flights</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+
+        <!-- Popular Destinations Carousel / Grid -->
+        <div class="popular-destinations-section">
+          <h3 class="section-title-small">Trending Destinations</h3>
+          <div class="destinations-grid">
+            <div class="destination-card" data-from="New York (JFK)" data-to="London (LHR)">
+              <div class="destination-card-glow"></div>
+              <div class="destination-info">
+                <h4>New York to London</h4>
+                <p>Non-stop flights from $420</p>
+              </div>
+            </div>
+            <div class="destination-card" data-from="Paris (CDG)" data-to="Tokyo (HND)">
+              <div class="destination-card-glow"></div>
+              <div class="destination-info">
+                <h4>Paris to Tokyo</h4>
+                <p>Premium options from $850</p>
+              </div>
+            </div>
+            <div class="destination-card" data-from="Singapore (SIN)" data-to="Sydney (SYD)">
+              <div class="destination-card-glow"></div>
+              <div class="destination-info">
+                <h4>Singapore to Sydney</h4>
+                <p>Direct routes from $580</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 2: FLIGHT RESULTS -->
+      <section class="step-section" id="step-results">
+        <!-- Search Info Banner -->
+        <div class="results-header-banner">
+          <button class="btn-back" id="btn-results-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"/>
+              <polyline points="12 19 5 12 12 5"/>
+            </svg>
+          </button>
+          <div class="route-summary">
+            <h2 class="route-summary-title" id="summary-route">JFK to LHR</h2>
+            <p class="route-summary-meta" id="summary-meta">Mon, Jun 15 • 1 Traveler</p>
+          </div>
+          <button class="btn btn-secondary-outline btn-sm" id="btn-edit-search">Modify Search</button>
+        </div>
+
+        <div class="results-layout">
+          <!-- Filters Sidebar -->
+          <aside class="filters-sidebar">
+            <h3 class="filters-title">Filter Results</h3>
+            
+            <div class="filter-group">
+              <label class="filter-label">Sort By</label>
+              <select class="filter-select" id="sort-by">
+                <option value="price">Price: Lowest First</option>
+                <option value="duration">Duration: Shortest First</option>
+                <option value="departure">Departure Time: Earliest First</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label class="filter-label">Airlines</label>
+              <div class="checkbox-list">
+                <label class="checkbox-container">
+                  <input type="checkbox" class="airline-filter" value="SkyFlow Elite" checked>
+                  <span class="checkmark"></span>
+                  SkyFlow Elite
+                </label>
+                <label class="checkbox-container">
+                  <input type="checkbox" class="airline-filter" value="Quantum Airways" checked>
+                  <span class="checkmark"></span>
+                  Quantum Airways
+                </label>
+                <label class="checkbox-container">
+                  <input type="checkbox" class="airline-filter" value="Horizon Express" checked>
+                  <span class="checkmark"></span>
+                  Horizon Express
+                </label>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <label class="filter-label">Max Stops</label>
+              <div class="checkbox-list">
+                <label class="checkbox-container">
+                  <input type="checkbox" class="stops-filter" value="nonstop" checked>
+                  <span class="checkmark"></span>
+                  Non-stop only
+                </label>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Flight List Container -->
+          <div class="flights-list-wrapper">
+            <div class="flights-count" id="flights-count-text">Showing 5 available flights</div>
+            <div class="flights-list" id="flights-list-container">
+              <!-- Dynamically populated flight cards -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating Summary Action Bar (shows when flight & class are selected) -->
+        <div class="floating-action-bar" id="floating-action-bar">
+          <div class="action-bar-inner">
+            <div class="selected-details-brief">
+              <div class="brief-flight" id="brief-flight-details">SkyFlow Elite • Economy</div>
+              <div class="brief-price" id="brief-price-total">Total: $420.00</div>
+            </div>
+            <button class="btn btn-primary" id="btn-proceed-booking">
+              <span>Continue to Passengers</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 3: PASSENGER INFORMATION & SUMMARY -->
+      <section class="step-section" id="step-passenger">
+        <div class="passenger-layout">
+          
+          <!-- Left: Passenger Form -->
+          <div class="passenger-form-container">
+            <div class="section-header">
+              <button class="btn-back" id="btn-passenger-back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="19" y1="12" x2="5" y2="12"/>
+                  <polyline points="12 19 5 12 12 5"/>
+                </svg>
+              </button>
+              <h2 class="form-section-title">Passenger Information</h2>
+            </div>
+            <p class="form-section-subtitle">Please enter correct contact information matching traveler travel documents.</p>
+
+            <form class="booking-form" id="booking-form" autocomplete="off">
+              <div class="form-grid">
+                
+                <!-- Full Name -->
+                <div class="form-input-group full-width">
+                  <div class="input-with-label">
+                    <input type="text" id="passenger-name" placeholder=" " required>
+                    <label for="passenger-name">Full Name (as in Passport)</label>
+                    <svg class="form-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                  </div>
+                  <span class="error-msg" id="name-error">Please enter your full name.</span>
+                </div>
+
+                <!-- Email -->
+                <div class="form-input-group">
+                  <div class="input-with-label">
+                    <input type="email" id="passenger-email" placeholder=" " required>
+                    <label for="passenger-email">Email Address</label>
+                    <svg class="form-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                      <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                  </div>
+                  <span class="error-msg" id="email-error">Please enter a valid email address.</span>
+                </div>
+
+                <!-- Mobile Phone -->
+                <div class="form-input-group">
+                  <div class="input-with-label">
+                    <input type="tel" id="passenger-phone" placeholder=" " required>
+                    <label for="passenger-phone">Mobile Phone</label>
+                    <svg class="form-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                  </div>
+                  <span class="error-msg" id="phone-error">Please enter a valid mobile number.</span>
+                </div>
+
+                <!-- Passport ID (Optional but premium layout) -->
+                <div class="form-input-group">
+                  <div class="input-with-label">
+                    <input type="text" id="passenger-passport" placeholder=" ">
+                    <label for="passenger-passport">Passport Number (Optional)</label>
+                    <svg class="form-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                      <polyline points="14 2 14 8 20 8"/>
+                      <line x1="16" y1="13" x2="8" y2="13"/>
+                      <line x1="16" y1="17" x2="8" y2="17"/>
+                      <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Gender Selector -->
+                <div class="form-input-group">
+                  <div class="input-with-label select-label-group">
+                    <select id="passenger-gender" class="form-select-inline">
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other / Undisclosed</option>
+                    </select>
+                    <label for="passenger-gender">Gender</label>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Premium Terms agreement checkbox -->
+              <div class="checkbox-container-terms">
+                <label class="checkbox-container">
+                  <input type="checkbox" id="terms-agree" required>
+                  <span class="checkmark"></span>
+                  I confirm that all names match my government ID, and I accept the terms of carriage.
+                </label>
+              </div>
+
+              <!-- Form Booking Submit -->
+              <button type="submit" class="btn btn-primary btn-submit-booking" id="btn-confirm-payment">
+                <span>Authorize & Book Reservation</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+
+            </form>
+          </div>
+
+          <!-- Right: Summary Sidebar -->
+          <div class="summary-sidebar-container">
+            <h3 class="sidebar-title">Fare Breakdown</h3>
+            <div class="summary-card">
+              
+              <!-- Route Display -->
+              <div class="summary-route-header">
+                <div class="route-point">
+                  <span class="airport-code" id="sum-from-code">JFK</span>
+                  <span class="airport-city" id="sum-from-city">New York</span>
+                </div>
+                <div class="route-connector-line">
+                  <svg class="plane-connector-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 20 2.5S18 3 16.5 4.5L13 8 4.8 6.2c-.5-.1-1.1.1-1.4.5L3 7.2c-.4.5-.4 1.2.1 1.5l7.9 4.7-3.2 3.2L5 16l-.8 1.2c-.3.4-.2 1 .2 1.3.3.3.9.4 1.3.2L7 18l.8-2.8 3.2-3.2 4.7 7.9c.3.5 1 .5 1.5.1l.5-.4c.4-.3.6-.9.5-1.4z"/>
+                  </svg>
+                </div>
+                <div class="route-point alignment-right">
+                  <span class="airport-code" id="sum-to-code">LHR</span>
+                  <span class="airport-city" id="sum-to-city">London</span>
+                </div>
+              </div>
+
+              <!-- Flight Info Detail -->
+              <div class="summary-flight-meta">
+                <div class="meta-row">
+                  <span class="meta-label">Airline</span>
+                  <span class="meta-val" id="sum-airline">SkyFlow Elite</span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-label">Date & Time</span>
+                  <span class="meta-val" id="sum-datetime">Mon, Jun 15 • 08:30 AM</span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-label">Class Cabin</span>
+                  <span class="meta-val cabin-badge" id="sum-cabin">Economy Class</span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-label">Total travelers</span>
+                  <span class="meta-val" id="sum-passengers">1 Passenger</span>
+                </div>
+              </div>
+
+              <!-- Cost breakdown -->
+              <div class="summary-cost-details">
+                <div class="cost-row">
+                  <span>Base Fare (x<span id="sum-passengers-qty">1</span>)</span>
+                  <span id="sum-base-price">$380.00</span>
+                </div>
+                <div class="cost-row">
+                  <span>Taxes & Carrier Fees</span>
+                  <span id="sum-taxes-price">$40.00</span>
+                </div>
+                <div class="cost-row grand-total-row">
+                  <span>Grand Total</span>
+                  <span class="grand-total-amount" id="sum-grand-total">$420.00</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- STEP 4: BOARDING PASS CONFIRMATION -->
+      <section class="step-section" id="step-confirmation">
+        <div class="success-header">
+          <div class="success-icon-wrap">
+            <svg class="success-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <h2 class="success-title">Your Booking is Confirmed!</h2>
+          <p class="success-subtitle">We have sent a verification and itinerary details receipt email to <span class="highlight-email" id="confirm-email-placeholder">user@example.com</span>.</p>
+        </div>
+
+        <!-- Dynamic Digital Boarding Pass Ticket Container -->
+        <div class="ticket-wrapper-outer">
+          <!-- The Boarding Pass card -->
+          <div class="boarding-pass">
+            <!-- Top brand header -->
+            <div class="ticket-header">
+              <div class="ticket-brand">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 20 2.5S18 3 16.5 4.5L13 8 4.8 6.2c-.5-.1-1.1.1-1.4.5L3 7.2c-.4.5-.4 1.2.1 1.5l7.9 4.7-3.2 3.2L5 16l-.8 1.2c-.3.4-.2 1.0.2 1.3.3.3.9.4 1.3.2L7 18l.8-2.8 3.2-3.2 4.7 7.9c.3.5 1 .5 1.5.1l.5-.4c.4-.3.6-.9.5-1.4z"/>
+                </svg>
+                <span>SkyFlow Airlines</span>
+              </div>
+              <div class="ticket-class-badge" id="ticket-class-type">FIRST CLASS</div>
+            </div>
+
+            <!-- Major Details Body -->
+            <div class="ticket-body">
+              
+              <!-- Flight Origin/Dest Codes and City Names -->
+              <div class="ticket-trip-row">
+                <div class="trip-node">
+                  <span class="trip-code" id="ticket-from-code">JFK</span>
+                  <span class="trip-city" id="ticket-from-city">New York</span>
+                </div>
+                <div class="trip-path-graphic">
+                  <span class="time-label" id="ticket-duration">7h 45m</span>
+                  <div class="line-with-airplane">
+                    <div class="line-dot"></div>
+                    <div class="line-dashed"></div>
+                    <svg class="ticket-plane-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 20 2.5S18 3 16.5 4.5L13 8 4.8 6.2c-.5-.1-1.1.1-1.4.5L3 7.2c-.4.5-.4 1.2.1 1.5l7.9 4.7-3.2 3.2L5 16l-.8 1.2c-.3.4-.2 1 .2 1.3.3.3.9.4 1.3.2L7 18l.8-2.8 3.2-3.2 4.7 7.9c.3.5 1 .5 1.5.1l.5-.4c.4-.3.6-.9.5-1.4z"/>
+                    </svg>
+                    <div class="line-dot"></div>
+                  </div>
+                  <span class="route-stops">Non-stop</span>
+                </div>
+                <div class="trip-node alignment-right">
+                  <span class="trip-code" id="ticket-to-code">LHR</span>
+                  <span class="trip-city" id="ticket-to-city">London</span>
+                </div>
+              </div>
+
+              <!-- Ticket Info Columns -->
+              <div class="ticket-details-grid">
+                <div class="ticket-cell">
+                  <span class="cell-lbl">PASSENGER NAME</span>
+                  <span class="cell-val" id="ticket-name">Jane Doe</span>
+                </div>
+                <div class="ticket-cell">
+                  <span class="cell-lbl">FLIGHT NO</span>
+                  <span class="cell-val" id="ticket-flight-number">SF-204</span>
+                </div>
+                <div class="ticket-cell">
+                  <span class="cell-lbl">SEAT NUMBER</span>
+                  <span class="cell-val" id="ticket-seat">12A</span>
+                </div>
+                <div class="ticket-cell">
+                  <span class="cell-lbl">BOARDING TIME</span>
+                  <span class="cell-val" id="ticket-boarding-time">07:45 AM</span>
+                </div>
+                <div class="ticket-cell">
+                  <span class="cell-lbl">DATE</span>
+                  <span class="cell-val" id="ticket-date">15 Jun 2026</span>
+                </div>
+                <div class="ticket-cell">
+                  <span class="cell-lbl">GATE</span>
+                  <span class="cell-val" id="ticket-gate">B22</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Perforation line separator -->
+            <div class="ticket-divider">
+              <div class="divider-circle left"></div>
+              <div class="divider-dashed"></div>
+              <div class="divider-circle right"></div>
+            </div>
+
+            <!-- Footer: QR Code barcode layout -->
+            <div class="ticket-footer">
+              <div class="barcode-details">
+                <span class="barcode-serial">PNR REFERENCE: <span id="ticket-pnr">SF982A3</span></span>
+                <span class="barcode-subtext">Present this ticket on mobile or printed at boarding counter.</span>
+              </div>
+              <div class="barcode-graphic-wrapper">
+                <!-- SVG Mock QR Code -->
+                <svg class="qr-svg" viewBox="0 0 100 100">
+                  <!-- Outer frame border -->
+                  <rect x="5" y="5" width="90" height="90" fill="none" stroke="currentColor" stroke-width="2"/>
+                  <!-- Position symbols (Corners) -->
+                  <rect x="12" y="12" width="22" height="22" fill="currentColor"/>
+                  <rect x="16" y="16" width="14" height="14" fill="#ffffff"/>
+                  <rect x="19" y="19" width="8" height="8" fill="currentColor"/>
+
+                  <rect x="66" y="12" width="22" height="22" fill="currentColor"/>
+                  <rect x="70" y="16" width="14" height="14" fill="#ffffff"/>
+                  <rect x="73" y="19" width="8" height="8" fill="currentColor"/>
+
+                  <rect x="12" y="66" width="22" height="22" fill="currentColor"/>
+                  <rect x="16" y="70" width="14" height="14" fill="#ffffff"/>
+                  <rect x="19" y="73" width="8" height="8" fill="currentColor"/>
+
+                  <!-- Some random blocks mimicking a QR code -->
+                  <rect x="42" y="15" width="12" height="6" fill="currentColor"/>
+                  <rect x="45" y="27" width="8" height="12" fill="currentColor"/>
+                  <rect x="15" y="42" width="6" height="15" fill="currentColor"/>
+                  <rect x="27" y="45" width="15" height="6" fill="currentColor"/>
+                  <rect x="42" y="42" width="16" height="16" fill="currentColor"/>
+                  <rect x="66" y="45" width="22" height="6" fill="currentColor"/>
+                  <rect x="75" y="55" width="6" height="15" fill="currentColor"/>
+                  <rect x="45" y="66" width="15" height="12" fill="currentColor"/>
+                  <rect x="66" y="66" width="6" height="18" fill="currentColor"/>
+                  <rect x="78" y="75" width="10" height="10" fill="currentColor"/>
+                  <rect x="36" y="80" width="18" height="6" fill="currentColor"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Post-booking Actions -->
+        <div class="post-booking-actions">
+          <button class="btn btn-secondary-outline" id="btn-print-ticket">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px; margin-right: 8px;">
+              <polyline points="6 9 6 2 18 2 18 9"/>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+              <rect x="6" y="14" width="12" height="8"/>
+            </svg>
+            Print Boarding Pass
+          </button>
+          <button class="btn btn-primary" id="btn-restart-booking">
+            Book Another Flight
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>© 2026 SkyFlow Airlines. Developed for a Premium Reservation Experience.</p>
+    </footer>
+  </div>
+
+  <!-- JavaScript file -->
+  <script src="app.js"></script>
+</body>
+</html>
